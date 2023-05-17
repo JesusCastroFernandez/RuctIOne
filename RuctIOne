@@ -1,0 +1,22 @@
+from qiskit import QuantumCircuit, execute, Aer
+
+# Definir el circuito cuántico
+n_qubits = 2
+n_bits = 2
+qc = QuantumCircuit(n_qubits, n_bits)
+
+# Aplicar las compuertas cuánticas
+qc.h(0)  # Compuerta de Hadamard al qubit 0
+qc.cx(0, 1)  # Compuerta CNOT (control: qubit 0, objetivo: qubit 1)
+
+# Medir los qubits
+qc.measure(range(n_qubits), range(n_bits))
+
+# Ejecutar el circuito en un simulador cuántico
+simulator = Aer.get_backend('qasm_simulator')
+job = execute(qc, simulator, shots=1000)  # Ejecutar 1000 veces
+result = job.result()
+
+# Imprimir los resultados
+counts = result.get_counts(qc)
+print(counts)
